@@ -193,3 +193,22 @@ openCalendarButtons.forEach((button) => {
     emailInput?.focus();
   });
 });
+
+const revealItems = document.querySelectorAll(".reveal");
+
+if (revealItems.length > 0) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+        }
+      });
+    },
+    {
+      threshold: 0.2,
+    }
+  );
+
+  revealItems.forEach((item) => observer.observe(item));
+}
