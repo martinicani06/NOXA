@@ -21,6 +21,35 @@ body {
   line-height: 1.5;
 }
 
+.cursor-bubble {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.2) 60%,
+      rgba(255, 255, 255, 0)
+    ),
+    rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.cursor-bubble.is-stuck {
+  width: 72px;
+  height: 72px;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
 .faq-text {
   max-width: 560px;
 }

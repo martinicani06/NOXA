@@ -23,6 +23,7 @@ const timeTabs = document.querySelectorAll("[data-time-set]");
 
 const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
 const SCROLL_DURATION = 300;
+const bubble = document.querySelector(".cursor-bubble");
 
 const getEmailValue = () => {
   if (!emailInput || !emailInput.value.trim()) {
@@ -68,12 +69,7 @@ const buildMailto = (subject, body) => {
 
 const openMailClient = (subject, body) => {
   const mailto = buildMailto(subject, body);
-  const link = document.createElement("a");
-  link.href = mailto;
-  link.rel = "noopener";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
+  window.location.href = mailto;
 };
 
 if (infoButtons.length > 0) {
@@ -317,3 +313,47 @@ document.querySelectorAll("[data-scroll-target]").forEach((button) => {
     smoothScrollTo(document.querySelector(selector));
   });
 });
+
+if (bubble) {
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let bubbleX = mouseX;
+  let bubbleY = mouseY;
+  let stuckX = null;
+  let stuckY = null;
+  let isStuck = false;
+
+  const targets = document.querySelectorAll(
+    "button, a, .service-card, .feature-card, .pricing-card, .cv-card, .benefit, .faq-card"
+  );
+
+  targets.forEach((target) => {
+    target.addEventListener("mouseenter", () => {
+      const rect = target.getBoundingClientRect();
+      stuckX = rect.left + rect.width / 2;
+      stuckY = rect.top + rect.height / 2;
+      isStuck = true;
+      bubble.classList.add("is-stuck");
+    });
+    target.addEventListener("mouseleave", () => {
+      isStuck = false;
+      bubble.classList.remove("is-stuck");
+    });
+  });
+
+  window.addEventListener("mousemove", (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+  });
+
+  const animateBubble = () => {
+    const targetX = isStuck && stuckX !== null ? stuckX : mouseX;
+    const targetY = isStuck && stuckY !== null ? stuckY : mouseY;
+    bubbleX += (targetX - bubbleX) * 0.15;
+    bubbleY += (targetY - bubbleY) * 0.15;
+    bubble.style.transform = `translate(${bubbleX}px, ${bubbleY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateBubble);
+  };
+
+  animateBubble();
+}
