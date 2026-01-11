@@ -98,14 +98,23 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
       return;
     }
     calendarTimes.innerHTML = "";
+    const day = String(state.selected).padStart(2, "0");
+    const month = String(state.month + 1).padStart(2, "0");
+    const dateKey = `${state.year}-${month}-${day}`;
     times.forEach((time) => {
+      const timeBooked = isBooked(dateKey, time);
       const chip = document.createElement("span");
       chip.textContent = time;
       chip.dataset.time = time;
-      if (time === selectedTime) {
+      if (timeBooked) {
+        chip.classList.add("unavailable");
+      } else if (time === selectedTime) {
         chip.classList.add("active");
       }
       chip.addEventListener("click", () => {
+        if (timeBooked) {
+          return;
+        }
         selectedTime = time;
         renderTimes();
       });
@@ -146,6 +155,7 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
           .querySelectorAll(".date")
           .forEach((item) => item.classList.remove("active"));
         date.classList.add("active");
+        renderTimes();
       });
       calendarGrid.appendChild(date);
     }

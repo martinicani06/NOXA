@@ -22,7 +22,7 @@
         <nav class="nav">
           <a href="#" class="pill">Login</a>
           <a href="#cta" class="pill" data-open-calendar>Reservar llamada</a>
-          <a href="#" class="pill pill-dark">Ver servicios</a>
+          <a href="#services" class="pill pill-dark">Ver servicios</a>
         </nav>
       </header>
 
@@ -35,7 +35,9 @@
           </h1>
           <p>Automatización creativa y sistemas de captación digital.</p>
           <div class="hero-actions">
-            <button class="primary-btn">Ver servicios</button>
+            <button class="primary-btn" onclick="location.href='#services'">
+              Ver servicios
+            </button>
             <button class="ghost-btn" data-open-calendar>Agendar llamada</button>
           </div>
         </div>
@@ -47,7 +49,9 @@
           <div class="hero-card-body">
             <h2>Bienvenido a NOXA</h2>
             <p>Landings, automatización y estrategia en un solo lugar.</p>
-            <button class="primary-btn light">Solicitar info</button>
+            <button class="primary-btn light" data-info-request>
+              Solicitar info
+            </button>
           </div>
           <div class="hero-card-footer">
             <div class="avatar">😊</div>
@@ -290,7 +294,7 @@
         <button class="ghost-btn">Ver casos</button>
       </section>
 
-      <section class="section pricing">
+      <section class="section pricing" id="services">
         <p class="eyebrow">Servicios</p>
         <h2 class="section-title">
           Una estrategia,<br />
@@ -314,6 +318,8 @@
               <li>Blueprint estratégico</li>
               <li>Copywriting orientado a ventas</li>
               <li>Prompt avanzado para Framer AI</li>
+              <li>Tarifa mensual fija</li>
+              <li>Entrega rápida y ordenada</li>
               <li>Checklist QA + publicación</li>
               <li>Soporte en integraciones clave</li>
             </ul>
@@ -332,11 +338,43 @@
         </div>
       </section>
 
+      <section class="section services-detail">
+        <h2 class="section-title">
+          Todo lo que NOXA ofrece <span class="italic">ahora</span> y lo que viene
+        </h2>
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Servicios actuales</h3>
+            <ul>
+              <li>Generación de landings de alta conversión.</li>
+              <li>Blueprint de landing + plan de contenidos.</li>
+              <li>Prompt avanzado para Framer (Create with AI).</li>
+              <li>Checklist de QA y publicación.</li>
+              <li>Gestión de assets y recursos.</li>
+              <li>Soporte en integraciones (WhatsApp, CRM, calendario).</li>
+              <li>Estrategia de conversión y copywriting.</li>
+              <li>Interfaces personalizadas y componentes UI.</li>
+            </ul>
+          </article>
+          <article class="service-card">
+            <h3>Próximamente</h3>
+            <ul>
+              <li>Iteración y pruebas A/B automatizadas.</li>
+              <li>Asesoría personalizada de posicionamiento.</li>
+              <li>Avatares y segmentación de audiencia.</li>
+              <li>Informes de rendimiento y métricas de conversión.</li>
+              <li>Integraciones más profundas con CRMs.</li>
+              <li>Generación de variantes de landing con IA.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section class="section faq">
         <div class="faq-text">
-        <h2 class="section-title">
-          <span class="italic">Preguntas</span> frecuentes
-        </h2>
+          <h2 class="section-title">
+            <span class="italic">Preguntas</span> frecuentes
+          </h2>
           <div class="accordion" id="faq">
             <button class="accordion-item">
               <span>¿Cuánto tarda la entrega?</span>
