@@ -245,10 +245,16 @@ body {
 }
 
 .service-card {
-  background: #fff;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.6)
+  );
   border-radius: 22px;
   padding: 24px;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
 }
 
 .service-card h3 {
@@ -294,10 +300,16 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  background: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.6)
+  );
   border-radius: 24px;
   padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
   margin-bottom: 32px;
 }
 
@@ -337,10 +349,16 @@ body {
 }
 
 .cv-card {
-  background: #ffffff;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.65)
+  );
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 45px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
 }
 
 .cv-card h3 {
@@ -530,11 +548,17 @@ body {
 }
 
 .benefit {
-  background: #fff;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.6)
+  );
   border-radius: 18px;
   padding: 20px;
   text-align: left;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
 }
 
 .benefit-icon {
@@ -581,8 +605,14 @@ body {
 }
 
 .pricing-card.light {
-  background: #fff;
-  box-shadow: var(--shadow);
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.6)
+  );
+  box-shadow: 0 28px 55px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(14px);
 }
 
 .pricing-card.dark {
@@ -656,11 +686,17 @@ body {
 }
 
 .faq-card {
-  background: linear-gradient(160deg, #ffb800, #ff5b78);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 184, 0, 0.85),
+    rgba(255, 91, 120, 0.75)
+  );
   border-radius: 26px;
   padding: 24px;
   color: #fff;
   box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
 }
 
 .faq-card-inner {
@@ -668,6 +704,8 @@ body {
   border-radius: 20px;
   padding: 24px;
   text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
 }
 
 .cta {
@@ -715,9 +753,15 @@ body {
 }
 
 .cta-panel {
-  background: #1a1a1a;
+  background: linear-gradient(
+    140deg,
+    rgba(26, 26, 26, 0.85),
+    rgba(26, 26, 26, 0.6)
+  );
   border-radius: 24px;
   padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .cta-note {
