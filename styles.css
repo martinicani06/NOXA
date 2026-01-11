@@ -21,6 +21,10 @@ body {
   line-height: 1.5;
 }
 
+.faq-text {
+  max-width: 560px;
+}
+
 .page {
   max-width: 1200px;
   margin: 0 auto;
@@ -696,8 +700,27 @@ body {
   padding: 14px 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.accordion-label {
+  display: block;
+  text-align: left;
+  font-size: 18px;
+}
+
+.accordion-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.faq-em {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 600;
 }
 
 .accordion-panel {

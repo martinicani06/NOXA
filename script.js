@@ -22,12 +22,40 @@ const calendarTimes = document.querySelector("[data-calendar-times]");
 const timeTabs = document.querySelectorAll("[data-time-set]");
 
 const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
+const SCROLL_DURATION = 300;
 
 const getEmailValue = () => {
   if (!emailInput || !emailInput.value.trim()) {
     return "";
   }
   return emailInput.value.trim();
+};
+
+const smoothScrollTo = (target) => {
+  if (!target) {
+    return;
+  }
+  const start = window.scrollY;
+  const end = target.getBoundingClientRect().top + window.scrollY;
+  const distance = end - start;
+  let startTime = null;
+
+  const step = (timestamp) => {
+    if (!startTime) {
+      startTime = timestamp;
+    }
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / SCROLL_DURATION, 1);
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    window.scrollTo(0, start + distance * ease);
+    if (elapsed < SCROLL_DURATION) {
+      window.requestAnimationFrame(step);
+    }
+  };
+
+  window.requestAnimationFrame(step);
 };
 
 const buildMailto = (subject, body) => {
@@ -241,7 +269,7 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
 
 openCalendarButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    document.querySelector("#cta")?.scrollIntoView({ behavior: "smooth" });
+    smoothScrollTo(document.querySelector("#cta"));
     emailInput?.focus();
   });
 });
@@ -264,3 +292,28 @@ if (revealItems.length > 0) {
 
   revealItems.forEach((item) => observer.observe(item));
 }
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const href = link.getAttribute("href");
+    if (!href || href === "#") {
+      return;
+    }
+    const target = document.querySelector(href);
+    if (!target) {
+      return;
+    }
+    event.preventDefault();
+    smoothScrollTo(target);
+  });
+});
+
+document.querySelectorAll("[data-scroll-target]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const selector = button.getAttribute("data-scroll-target");
+    if (!selector) {
+      return;
+    }
+    smoothScrollTo(document.querySelector(selector));
+  });
+});
