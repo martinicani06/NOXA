@@ -24,7 +24,7 @@ const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
 
 const getEmailValue = () => {
   if (!emailInput || !emailInput.value.trim()) {
-    return "cliente@ejemplo.com";
+    return "";
   }
   return emailInput.value.trim();
 };
@@ -44,6 +44,11 @@ const openMailClient = (subject, body) => {
 if (infoButton) {
   infoButton.addEventListener("click", () => {
     const email = getEmailValue();
+    if (!email) {
+      emailInput?.focus();
+      alert("Ingresa tu correo para continuar.");
+      return;
+    }
     const subject = `Mas informacion para "${email}"`;
     const body = `Hola NOXA soy "${email}" y me interesaria saber mas sobre tus servicios.\n\nQuedo atento a su respuesta.\n\nMuchas gracias NOXA,\nHasta pronto!`;
     openMailClient(subject, body);
@@ -172,6 +177,11 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
   if (bookButton) {
     bookButton.addEventListener("click", () => {
       const email = getEmailValue();
+      if (!email) {
+        emailInput?.focus();
+        alert("Ingresa tu correo para continuar.");
+        return;
+      }
       const day = String(state.selected).padStart(2, "0");
       const month = String(state.month + 1).padStart(2, "0");
       const dateKey = `${state.year}-${month}-${day}`;
