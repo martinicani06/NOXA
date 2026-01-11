@@ -12,7 +12,7 @@ items.forEach((item) => {
 
 const openCalendarButtons = document.querySelectorAll("[data-open-calendar]");
 const emailInput = document.querySelector("#cta-email");
-const infoButton = document.querySelector("[data-info-request]");
+const infoButtons = document.querySelectorAll("[data-info-request]");
 const bookButton = document.querySelector("[data-book-call]");
 const calendarGrid = document.querySelector("[data-calendar-grid]");
 const calendarMonth = document.querySelector("[data-calendar-month]");
@@ -39,20 +39,28 @@ const buildMailto = (subject, body) => {
 };
 
 const openMailClient = (subject, body) => {
-  window.location.href = buildMailto(subject, body);
+  const mailto = buildMailto(subject, body);
+  const link = document.createElement("a");
+  link.href = mailto;
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 };
 
-if (infoButton) {
-  infoButton.addEventListener("click", () => {
-    const email = getEmailValue();
-    if (!email) {
-      emailInput?.focus();
-      alert("Ingresa tu correo para continuar.");
-      return;
-    }
-    const subject = `Mas informacion para "${email}"`;
-    const body = `Hola NOXA soy "${email}" y me interesaria saber mas sobre tus servicios.\n\nQuedo atento a su respuesta.\n\nMuchas gracias NOXA,\nHasta pronto!`;
-    openMailClient(subject, body);
+if (infoButtons.length > 0) {
+  infoButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const email = getEmailValue();
+      if (!email) {
+        emailInput?.focus();
+        alert("Ingresa tu correo para continuar.");
+        return;
+      }
+      const subject = `Mas informacion para "${email}"`;
+      const body = `Hola NOXA soy "${email}" y me interesaria saber mas sobre tus servicios.\n\nQuedo atento a su respuesta.\n\nMuchas gracias NOXA,\nHasta pronto!`;
+      openMailClient(subject, body);
+    });
   });
 }
 
