@@ -24,6 +24,9 @@ const timeTabs = document.querySelectorAll("[data-time-set]");
 const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
 const SCROLL_DURATION = 300;
 const bubble = document.querySelector(".cursor-bubble");
+const bubbleTargets = document.querySelectorAll(
+  ".service-card, .feature-card, .pricing-card, .cv-card, .benefit, .faq-card, .hero-card, .note-box, .cta-panel, .calendar, .accordion-item"
+);
 
 const getEmailValue = () => {
   if (!emailInput || !emailInput.value.trim()) {
@@ -314,43 +317,52 @@ document.querySelectorAll("[data-scroll-target]").forEach((button) => {
   });
 });
 
-if (bubble) {
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let bubbleX = mouseX;
-  let bubbleY = mouseY;
-  let stuckX = null;
-  let stuckY = null;
-  let isStuck = false;
+if (bubble && bubbleTargets.length > 0) {
+  let bubbleX = window.innerWidth / 2;
+  let bubbleY = window.innerHeight / 2;
+  let targetX = bubbleX;
+  let targetY = bubbleY;
+  let targetWidth = 120;
+  let targetHeight = 120;
+  let activeTarget = null;
 
-  const targets = document.querySelectorAll(
-    "button, a, .service-card, .feature-card, .pricing-card, .cv-card, .benefit, .faq-card"
-  );
-
-  targets.forEach((target) => {
+  bubbleTargets.forEach((target) => {
+    target.classList.add("bubble-target");
     target.addEventListener("mouseenter", () => {
       const rect = target.getBoundingClientRect();
-      stuckX = rect.left + rect.width / 2;
-      stuckY = rect.top + rect.height / 2;
-      isStuck = true;
-      bubble.classList.add("is-stuck");
+      activeTarget = target;
+      targetX = rect.left + rect.width / 2;
+      targetY = rect.top + rect.height / 2;
+      targetWidth = rect.width + 20;
+      targetHeight = rect.height + 20;
+      bubble.style.width = `${targetWidth}px`;
+      bubble.style.height = `${targetHeight}px`;
+      bubble.classList.add("is-active");
+      document.body.classList.add("cursor-hidden");
+      target.classList.add("bubble-active");
     });
     target.addEventListener("mouseleave", () => {
-      isStuck = false;
-      bubble.classList.remove("is-stuck");
+      if (activeTarget === target) {
+        activeTarget = null;
+      }
+      bubble.classList.remove("is-active");
+      document.body.classList.remove("cursor-hidden");
+      target.classList.remove("bubble-active");
     });
-  });
-
-  window.addEventListener("mousemove", (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
   });
 
   const animateBubble = () => {
-    const targetX = isStuck && stuckX !== null ? stuckX : mouseX;
-    const targetY = isStuck && stuckY !== null ? stuckY : mouseY;
-    bubbleX += (targetX - bubbleX) * 0.15;
-    bubbleY += (targetY - bubbleY) * 0.15;
+    if (activeTarget) {
+      const rect = activeTarget.getBoundingClientRect();
+      targetX = rect.left + rect.width / 2;
+      targetY = rect.top + rect.height / 2;
+      targetWidth = rect.width + 20;
+      targetHeight = rect.height + 20;
+      bubble.style.width = `${targetWidth}px`;
+      bubble.style.height = `${targetHeight}px`;
+    }
+    bubbleX += (targetX - bubbleX) * 0.18;
+    bubbleY += (targetY - bubbleY) * 0.18;
     bubble.style.transform = `translate(${bubbleX}px, ${bubbleY}px) translate(-50%, -50%)`;
     requestAnimationFrame(animateBubble);
   };
