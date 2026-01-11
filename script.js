@@ -19,6 +19,7 @@ const calendarMonth = document.querySelector("[data-calendar-month]");
 const calendarPrev = document.querySelector("[data-calendar-prev]");
 const calendarNext = document.querySelector("[data-calendar-next]");
 const calendarTimes = document.querySelector("[data-calendar-times]");
+const timeTabs = document.querySelectorAll("[data-time-set]");
 
 const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
 
@@ -76,10 +77,14 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
     month: startState.getMonth(),
     selected: 13,
   };
-  const times = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+  const timeSets = {
+    early: ["17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30"],
+    late: ["18:45", "19:00", "19:15", "19:30", "19:45"],
+  };
   const storageKey = "noxa-calendar-bookings";
   const bookings = JSON.parse(localStorage.getItem(storageKey) || "[]");
-  let selectedTime = times[0];
+  let activeTimeSet = "early";
+  let selectedTime = timeSets[activeTimeSet][0];
 
   const saveBooking = (entry) => {
     bookings.push(entry);
@@ -101,6 +106,10 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
     const day = String(state.selected).padStart(2, "0");
     const month = String(state.month + 1).padStart(2, "0");
     const dateKey = `${state.year}-${month}-${day}`;
+    const times = timeSets[activeTimeSet];
+    if (!times.includes(selectedTime)) {
+      selectedTime = times[0];
+    }
     times.forEach((time) => {
       const timeBooked = isBooked(dateKey, time);
       const chip = document.createElement("span");
@@ -137,7 +146,9 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
 
     for (let day = 1; day <= lastDay.getDate(); day += 1) {
       const dateKey = `${state.year}-${String(state.month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      const dayIsBooked = times.every((time) => isBooked(dateKey, time));
+      const dayIsBooked = Object.values(timeSets).every((set) =>
+        set.every((time) => isBooked(dateKey, time))
+      );
       const date = document.createElement("span");
       date.className = "date";
       date.textContent = day;
@@ -183,6 +194,19 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
 
   renderTimes();
   renderCalendar();
+
+  timeTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const nextSet = tab.dataset.timeSet;
+      if (!nextSet || !timeSets[nextSet]) {
+        return;
+      }
+      activeTimeSet = nextSet;
+      timeTabs.forEach((item) => item.classList.remove("active"));
+      tab.classList.add("active");
+      renderTimes();
+    });
+  });
 
   if (bookButton) {
     bookButton.addEventListener("click", () => {
