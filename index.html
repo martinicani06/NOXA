@@ -21,7 +21,7 @@
         </div>
         <nav class="nav">
           <a href="#" class="pill">Login</a>
-          <a href="#" class="pill">Book a call</a>
+          <a href="#cta" class="pill" data-open-calendar>Book a call</a>
           <a href="#" class="pill pill-dark">See pricing</a>
         </nav>
       </header>
@@ -36,7 +36,7 @@
           <p>Pause or cancel anytime.</p>
           <div class="hero-actions">
             <button class="primary-btn">See pricing</button>
-            <button class="ghost-btn">Book a 15-min call</button>
+            <button class="ghost-btn" data-open-calendar>Book a 15-min call</button>
           </div>
         </div>
         <div class="hero-card">
@@ -266,19 +266,36 @@
           <div class="faq-card-inner">
             <div class="avatar large">😊</div>
             <h3>Book a 15-min intro call</h3>
-            <button class="primary-btn light">Book a call</button>
+            <button class="primary-btn light" data-open-calendar>Book a call</button>
             <p>Prefer to email? hello@designjoy.co</p>
           </div>
         </div>
       </section>
 
-      <section class="cta">
+      <section class="cta" id="cta">
         <div class="cta-text">
           <h2>
             See if Designjoy is the right fit for you
             <span class="italic">(it totally is)</span>
           </h2>
           <p>Schedule a quick, 15 minute guided tour through Designjoy.</p>
+          <div class="cta-actions">
+            <label class="field-label" for="cta-email">Your email</label>
+            <input
+              class="cta-input"
+              id="cta-email"
+              type="email"
+              placeholder="you@email.com"
+              autocomplete="email" />
+            <div class="cta-buttons">
+              <button class="ghost-btn light" data-info-request>
+                Request info
+              </button>
+              <button class="primary-btn" data-book-call>
+                Book a call
+              </button>
+            </div>
+          </div>
         </div>
         <div class="cta-panel">
           <div class="cta-note">

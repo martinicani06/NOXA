@@ -133,6 +133,11 @@ body {
   border: 1px solid #e1d6d6;
 }
 
+.ghost-btn.light {
+  background: #fff;
+  color: #111;
+}
+
 .hero-card {
   background: linear-gradient(160deg, #ff8dd6, #5b5bff 45%, #1515ff);
   color: #fff;
@@ -509,6 +514,34 @@ body {
   align-items: center;
 }
 
+.cta-actions {
+  margin-top: 24px;
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+}
+
+.field-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cta-input {
+  border-radius: 999px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #121212;
+  color: #fff;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .cta-text h2 {
   font-size: clamp(28px, 4vw, 44px);
   margin-bottom: 16px;
@@ -576,6 +609,12 @@ body {
   cursor: default;
 }
 
+.date.unavailable {
+  background: #3a1b1b;
+  color: #ff8a8a;
+  cursor: not-allowed;
+}
+
 .date.active {
   background: #fff;
   color: #111;
@@ -591,6 +630,13 @@ body {
   padding: 6px 8px;
   border-radius: 8px;
   text-align: center;
+  cursor: pointer;
+}
+
+.times span.active {
+  border-color: #fff;
+  background: #fff;
+  color: #111;
 }
 
 @media (max-width: 960px) {

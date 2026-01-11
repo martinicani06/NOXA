@@ -10,11 +10,45 @@ items.forEach((item) => {
   });
 });
 
+const openCalendarButtons = document.querySelectorAll("[data-open-calendar]");
+const emailInput = document.querySelector("#cta-email");
+const infoButton = document.querySelector("[data-info-request]");
+const bookButton = document.querySelector("[data-book-call]");
 const calendarGrid = document.querySelector("[data-calendar-grid]");
 const calendarMonth = document.querySelector("[data-calendar-month]");
 const calendarPrev = document.querySelector("[data-calendar-prev]");
 const calendarNext = document.querySelector("[data-calendar-next]");
 const calendarTimes = document.querySelector("[data-calendar-times]");
+
+const NOXA_EMAIL = "noxadigitalcontact@gmail.com";
+
+const getEmailValue = () => {
+  if (!emailInput || !emailInput.value.trim()) {
+    return "cliente@ejemplo.com";
+  }
+  return emailInput.value.trim();
+};
+
+const buildMailto = (subject, body) => {
+  const params = new URLSearchParams({
+    subject,
+    body,
+  });
+  return `mailto:${NOXA_EMAIL}?${params.toString()}`;
+};
+
+const openMailClient = (subject, body) => {
+  window.location.href = buildMailto(subject, body);
+};
+
+if (infoButton) {
+  infoButton.addEventListener("click", () => {
+    const email = getEmailValue();
+    const subject = `Mas informacion para "${email}"`;
+    const body = `Hola NOXA soy "${email}" y me interesaria saber mas sobre tus servicios.\n\nQuedo atento a su respuesta.\n\nMuchas gracias NOXA,\nHasta pronto!`;
+    openMailClient(subject, body);
+  });
+}
 
 if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
   const monthNames = [
@@ -37,7 +71,18 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
     month: startState.getMonth(),
     selected: 13,
   };
-  const times = ["19:00", "19:15", "19:30", "19:45", "20:00"];
+  const times = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+  const storageKey = "noxa-calendar-bookings";
+  const bookings = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  let selectedTime = times[0];
+
+  const saveBooking = (entry) => {
+    bookings.push(entry);
+    localStorage.setItem(storageKey, JSON.stringify(bookings));
+  };
+
+  const isBooked = (dateKey, time) =>
+    bookings.some((entry) => entry.date === dateKey && entry.time === time);
 
   const clearDates = () => {
     calendarGrid.querySelectorAll(".date").forEach((date) => date.remove());
@@ -51,6 +96,14 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
     times.forEach((time) => {
       const chip = document.createElement("span");
       chip.textContent = time;
+      chip.dataset.time = time;
+      if (time === selectedTime) {
+        chip.classList.add("active");
+      }
+      chip.addEventListener("click", () => {
+        selectedTime = time;
+        renderTimes();
+      });
       calendarTimes.appendChild(chip);
     });
   };
@@ -69,13 +122,20 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
     }
 
     for (let day = 1; day <= lastDay.getDate(); day += 1) {
+      const dateKey = `${state.year}-${String(state.month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      const dayIsBooked = times.every((time) => isBooked(dateKey, time));
       const date = document.createElement("span");
       date.className = "date";
       date.textContent = day;
-      if (day === state.selected) {
+      if (dayIsBooked) {
+        date.classList.add("unavailable");
+      } else if (day === state.selected) {
         date.classList.add("active");
       }
       date.addEventListener("click", () => {
+        if (dayIsBooked) {
+          return;
+        }
         state.selected = day;
         calendarGrid
           .querySelectorAll(".date")
@@ -108,4 +168,28 @@ if (calendarGrid && calendarMonth && calendarPrev && calendarNext) {
 
   renderTimes();
   renderCalendar();
+
+  if (bookButton) {
+    bookButton.addEventListener("click", () => {
+      const email = getEmailValue();
+      const day = String(state.selected).padStart(2, "0");
+      const month = String(state.month + 1).padStart(2, "0");
+      const dateKey = `${state.year}-${month}-${day}`;
+      if (isBooked(dateKey, selectedTime)) {
+        return;
+      }
+      const subject = `Buenas he agendado con vosotros una reunion! de "${email}"`;
+      const body = `Hola NOXA soy: "${email}" y me complace anunciaros que he agendado con vosotros una videollamada para saber mas si me interesara vuestro servicio de automatizacion para mi empresa.\n\nNos vemos el dia ${day}/${month}/${state.year} a las ${selectedTime} a traves de Google Meet.\n\nMuchas gracias NOXA,\nHasta pronto!`;
+      saveBooking({ date: dateKey, time: selectedTime, email });
+      renderCalendar();
+      openMailClient(subject, body);
+    });
+  }
 }
+
+openCalendarButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector("#cta")?.scrollIntoView({ behavior: "smooth" });
+    emailInput?.focus();
+  });
+});
